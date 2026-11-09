@@ -820,21 +820,24 @@ FORM: Board-first arcade console; one-screen desktop staging, stacked playfield 
           ctx.fill();
         }
 
-        snake?.forEach((segment, index) => {
-          const inset = index === 0 ? 2 : 2.6;
-          const x = segment.x * cellSize + inset;
-          const y = segment.y * cellSize + inset;
-          const extent = cellSize - inset * 2;
-          ctx.save();
-          if (index === 0) {
-            ctx.shadowColor = "rgba(198, 255, 107, .42)";
-            ctx.shadowBlur = 12;
+        if (snake && snake.length) {
+          for (let index = 0; index < snake.length; index += 1) {
+            const segment = snake[index];
+            const inset = index === 0 ? 2 : 2.6;
+            const x = segment.x * cellSize + inset;
+            const y = segment.y * cellSize + inset;
+            const extent = cellSize - inset * 2;
+            ctx.save();
+            if (index === 0) {
+              ctx.shadowColor = "rgba(198, 255, 107, .42)";
+              ctx.shadowBlur = 12;
+            }
+            ctx.fillStyle = index === 0 ? "#d6ff91" : `rgba(198, 255, 107, ${Math.max(.56, .9 - index * .012)})`;
+            roundedRect(x, y, extent, extent, 5);
+            ctx.fill();
+            ctx.restore();
           }
-          ctx.fillStyle = index === 0 ? "#d6ff91" : `rgba(198, 255, 107, ${Math.max(.56, .9 - index * .012)})`;
-          roundedRect(x, y, extent, extent, 5);
-          ctx.fill();
-          ctx.restore();
-        });
+        }
 
         if (snake?.length) {
           const head = snake[0];
